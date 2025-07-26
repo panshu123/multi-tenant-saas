@@ -6,7 +6,7 @@ A minimal Laravel backend for a multi-tenant SaaS app allowing users to create, 
 
 1. **Clone repository**
    -git clone https://github.com/yourusername/your-repo-name.git
-   -cd multi-tenant-saas
+   -cd multi-tenant-saas 
 
 2. **Install dependenciesy**
     -composer install
