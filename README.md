@@ -4,47 +4,50 @@ A minimal Laravel backend for a multi-tenant SaaS app allowing users to create, 
 
 ### Setup Instructions
 
-1. **Clone repository**-  git clone https://github.com/yourusername/your-repo-name.git-  cd multi-tenant-saas 
+1. **Clone repository**<br>
+    git clone https://github.com/panshu123/multi-tenant-saas.git<br>
+    cd multi-tenant-saas 
 
-2. **Install dependenciesy**
+3. **Install dependenciesy**<br>
     -composer install
 
-3. **Configure environment**
+4. **Configure environment**<br>
     -Set your database credentials
 
-4. **Run migrations**
+5. **Run migrations**<br>
     -php artisan migrate
 
-5. **Authentication**
-    -Register and login via API (Laravel Breeze API stack used).
+6. **Authentication**<br>
+    -Register and login via API (Laravel Breeze API stack used).<br>
     -Use returned API tokens to authenticate requests (via Authorization: Bearer {token} header).
 
 
 
-### API Endpoints    
+### API Endpoints<br>    
 All routes are prefixed with /public/api and protected by Sanctum authentication unless noted.
 
-1. **Authentication**
-    -register   |POST
-    -login      |POST
-    -logout     |POST
+1. **Authentication**<br>
+    -register   |POST<br>
+    -login      |POST<br>
+    -logout     |POST<br>
 
-2. **Companies**
-    -companies      | GET (List all companies of authenticated user)
-    -companies      | POST (Create a new company)
-    -companies{id}  | GET (Show a specific company)
-    -companies/{id} | PUT (Update a company)
+2. **Companies**<br>
+    -companies      | GET (List all companies of authenticated user)<br>
+    -companies      | POST (Create a new company)<br>
+    -companies{id}  | GET (Show a specific company)<br>
+    -companies/{id} | PUT (Update a company)<br>
     -companies/{id} | DELETE (Soft delete a company)
 
-3. **Active Company**
+3. **Active Company**<br>
     -companies/switch/{company_id} | POST (Set the active company for the user)
 
-4. **Invoices**
+4. **Invoices**<br>
     -invoices | POST (Create invoice under active company)	
 
 
 
-### Example Requests (Using Postman)
+### Example Requests (Using Postman)<br>
+
     Register User
     -POST /api/register
     {
@@ -54,12 +57,14 @@ All routes are prefixed with /public/api and protected by Sanctum authentication
     "password_confirmation": "password"
     }
 
+
     Login User
     -POST /api/login
     {
     "email": "john@example.com",
     "password": "password"
     }
+
 
     Create Company
     -POST /api/companies
@@ -70,9 +75,11 @@ All routes are prefixed with /public/api and protected by Sanctum authentication
     "industry": "Technology"
     }
 
+
     Switch Active Company
     -POST /api/companies/switch/1
     -Authorization: Bearer {token}
+
 
     Create Invoice
     -POST /api/invoices
@@ -83,12 +90,11 @@ All routes are prefixed with /public/api and protected by Sanctum authentication
     }
 
 
-
 ### Multi-Tenant Logic and Data Scoping
--Users can own multiple companies.
--Each user has an active company stored either in the user_active_companies pivot table or a foreign key on users table.
--All company-related data (e.g., invoices, projects) are linked to a company.
--Global Eloquent Scopes enforce that queries on tenant-specific models automatically filter by the user's active company.
--This prevents cross-company data leakage and enforces tenant isolation.
--Switching active company updates the stored active company for the user and changes the data context for all subsequent API requests.
+-Users can own multiple companies.<br>
+-Each user has an active company stored either in the user_active_companies pivot table or a foreign key on users table.<br>
+-All company-related data (e.g., invoices, projects) are linked to a company.<br>
+-Global Eloquent Scopes enforce that queries on tenant-specific models automatically filter by the user's active company.<br>
+-This prevents cross-company data leakage and enforces tenant isolation.<br>
+-Switching active company updates the stored active company for the user and changes the data context for all subsequent API requests.<br>
 -Authorization checks ensure users can only manage companies they own.
